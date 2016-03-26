@@ -14,4 +14,14 @@ public class Home {
     public String sayHello() {
         return "Hello";
     }
+    
+    public void method() {
+        int i, j;
+        i = 2; j = 3;
+        try {
+            i = i/j;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.bawatech.testproject.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,19 +10,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class Home {
-
+    private static final Logger LOG = Logger.getLogger(Home.class);
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String sayHello() {
+        method();
         return "Hello";
     }
     
-    public void method() {
-        int i, j;
-        i = 2; j = 3;
-        try {
-            i = i/j;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void method() {
+        LOG.info("Insite Home method");
     }
 }

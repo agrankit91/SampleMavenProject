@@ -56,6 +56,7 @@
         <version>1.2.17</version>
     </dependency>
   </dependencies>
+  
   <build>
     <finalName>TestProject</finalName>
     <plugins>
@@ -137,5 +138,15 @@
             </dependencies>
         </plugin>
     </plugins>
+    
+    <resources>
+        <resource>
+            <directory>${basedir}/properties</directory>
+            <includes>
+                <include>log4j.properties</include>
+            </includes>
+        </resource>
+    </resources>
+    
   </build>
 </project>

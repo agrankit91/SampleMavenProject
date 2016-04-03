@@ -1,41 +1,43 @@
 package com.bawatech.testproject.repository.impl;
 
+import com.bawatech.testproject.exception.DataAccessException;
 import com.bawatech.testproject.model.User;
 import com.bawatech.testproject.repository.UserRepository;
 
-import java.util.List;
-import java.util.ArrayList;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
-public class DefaultUserRepository implements UserRepository {
+public class DefaultUserRepository extends HibernateBaseRepository<User, Integer> implements UserRepository {
     private static final Logger LOG = Logger.getLogger(DefaultUserRepository.class);
     private List<User> userList;
-    
+
     public DefaultUserRepository() {
-        userList = new ArrayList<>();
-        
-        User user1 = new User();
-        user1.setFirstName("Ankit");
-        user1.setLastName("Agrawal");
-        user1.setEmail("ankitagrawal1991@live.com");
-        this.userList.add(user1);
-        
-        User user2 = new User();
-        user2.setFirstName("Arpit");
-        user2.setLastName("Agrawal");
-        user2.setEmail("arpitagrawal92@yahoo.com");
-        this.userList.add(user2);
+        super(User.class);
     }
-    
+
+    public DefaultUserRepository(Class<User> userClass) {
+        super(userClass);
+    }
+
     @Override
-    public User getUserByEmail(final String email) {
-        for (User user : userList) {
-            if (user.getEmail().equals(email)) {
-                return user;
-            }
+    @Transactional
+    public User getUserByEmail(final String email) throws DataAccessException {
+        LOG.info("Getting user with email: " + email);
+        try {
+            Criteria criteria = getHibernateSession().createCriteria(entityClass);
+            criteria.add(Restrictions.eq("email", email).ignoreCase());
+
+            User user = (User) criteria.uniqueResult();
+            LOG.info("User got: " + user.getFirstName());
+            return user;
+        } catch (Exception e) {
+            throw new DataAccessException(e.getMessage(), e);
         }
-        return null;
     }
 }

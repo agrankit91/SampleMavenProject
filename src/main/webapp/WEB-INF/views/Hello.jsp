@@ -4,6 +4,9 @@
     <title>Hello</title>
 </head>
 <body>
-    <h1>Hello Ankit!!!</h1>
+    <h1>Hello ${user.firstName}</h1>
+    <h1>Hello ${user.lastName}</h1>
+    <h1>Hello ${user.email}</h1>
+
 </body>
 </html>
